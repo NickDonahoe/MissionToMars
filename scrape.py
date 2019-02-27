@@ -58,6 +58,7 @@ def scrape():
         #browser.click_link_by_partial_text('FULL IMAGE')
         # Retrieve all elements that contain book information
         mars_tweets = soup.body.find('p', class_ = 'TweetTextSize')
+        x += 1
     
     for mars_tweets_items in mars_tweets:
         twt_l.append(mars_tweets_items)
@@ -67,13 +68,17 @@ def scrape():
             mars_weather = twt_l[tweets]
             break
     
-    python_dict['mars_weather'] = mars_weather
+    python_dict['weather'] = mars_weather
 
     #4
 
     mars_table_df = pd.read_html('https://space-facts.com/mars/')[0]
-    mars_table_dict = mars_table_df.to_dict() 
+    mars_table_one = mars_table_df[0].values.tolist()
+    mars_table_two = mars_table_df[1].values.tolist()
 
-    python_dict['mars_table'] = mars_table_dict
+#    python_dict['info'] = mars_table_one    
+#    python_dict['data'] = mars_table_two
+
+    python_dict['wow'] = "wow"
 
     return python_dict

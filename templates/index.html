@@ -23,23 +23,37 @@
         <h4 class="heading">{{python_dict.news_title}}</h4>
         <p>{{python_dict.news_description}}</p>
         <p><img src = {{python_dict.featured_image_url}}></p>
-        <p>{{python_dict.mars_weather}}</p>
+        <p>{{python_dict.weather}}</p>
+        
+        <p>{{python_dict.wow}}</p>
 
+        <table class = "table">
+          <thead>
+            <tr>
+              <th scope = "col">Planet Info</th>
+              <th scope = "col">Data</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+             
+            </tr>
+          </tbody>
+        </table>
         
       </div>
     </div>
 
-  </div>
-  <table>
     
-    {% for key, value in python_dict.mars_table.iteritems() %}
-       <tr>
-            <th> {{ key }} </th>
-            <td> {{ value }} </td>
-       </tr>
-    {% endfor %}
 
-  </table>
+  </div>
+  
+    
+  
+
+
+
 </body>
 
 </html>
