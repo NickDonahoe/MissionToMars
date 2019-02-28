@@ -73,12 +73,48 @@ def scrape():
     #4
 
     mars_table_df = pd.read_html('https://space-facts.com/mars/')[0]
+#    mars_table_df = mars_table_df.rename(columns={"0": "Info", "1": "Data"})
+#    mars_table_df = mars_table_df.reset_index()
+#    mars_table_html = mars_table_df.to_html()
+#    mars_table_html = mars_table_html.replace('\n','')
+
     mars_table_one = mars_table_df[0].values.tolist()
     mars_table_two = mars_table_df[1].values.tolist()
 
-#    python_dict['info'] = mars_table_one    
-#    python_dict['data'] = mars_table_two
+#    mars_table_one = ['a','b']
 
-    python_dict['wow'] = "wow"
+    python_dict['table_one'] = mars_table_one
+    python_dict['table_two'] = mars_table_two
+
+    # 5
+
+    hemi_ls = ['Cerberus Hemisphere Enhanced', 'Schiaparelli Hemisphere Enhanced', 'Syrtis Major Hemisphere Enhanced', 'Valles Marineris Hemisphere Enhanced']
+    hemi_dict = {}
+    hemi_all_ls = []
+
+    mars_hemi_url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
+    browser.visit(mars_hemi_url)
+
+    for hemisphere in hemi_ls:
+        hemi_dict = {}
+        html = browser.html
+        # Parse HTML with Beautiful Soup
+        soup = BeautifulSoup(html, 'html.parser')
+        
+        browser.click_link_by_partial_text(hemisphere)
+        current_url = browser.url
+        
+        response = requests.get(current_url)
+        soups = BeautifulSoup(response.text, 'lxml')
+        # Retrieve all elements that contain book information
+        
+        hemi_dict['title'] = soups.body.find('h2', class_ = 'title').text.replace(' Enhanced',"")
+        hemi_dict['img_url'] = soups.body.find('div', class_ = 'downloads').find('li').find('a')['href']
+        
+        
+        hemi_all_ls.append(hemi_dict)
+        browser.click_link_by_partial_text('Back')
+
+    python_dict['hemisphere'] = hemi_all_ls
 
     return python_dict

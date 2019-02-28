@@ -8,7 +8,7 @@ app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://localhost:27017/mars_app"
 mongo = PyMongo(app)
 
-mars = mongo.db.mars
+#mars = mongo.db.mars
 # Or set inline
 # mongo = PyMongo(app, uri="mongodb://localhost:27017/craigslist_app")
 
@@ -16,11 +16,12 @@ mars = mongo.db.mars
 @app.route("/")
 def index():
     mars = mongo.db.mars.find_one()
-    return render_template("index.html", python_dict=mars)
+    return render_template("index.html", mars=mars)
 
 
 @app.route("/scrape")
 def scraper():
+    mars = mongo.db.mars
     mars_data = scrape.scrape()
     mars.update({}, mars_data, upsert=True)
     return redirect("/", code=302)
